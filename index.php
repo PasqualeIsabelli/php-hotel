@@ -37,8 +37,6 @@
       'distance_to_center' => 50
     ],
   ];
-  $park = $_GET['Filtra tramite parcheggio hotel'] ?? '';
-  $vote = $_GET['Filtra tramite voto hotel'] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -57,23 +55,22 @@
     <h1 class="text-center fw-bold mt-5"><?php echo $title ?></h1>
     <form action="index.php" class=" mt-4 border p-3">
       <h2>Filtri</h2>
-      <p class="fw-bold mt-4">Parcheggio:</p>
-      <select class="form-select" name="park">
-        <option selected>Filtra tramite parcheggio hotel</option>
+      <select class="form-select" name="parking">
+        <option hidden>Filtra tramite parcheggio</option>
         <option value="1">Disponibile</option>
-        <option value="2">Non Disponibile</option>
+        <option value="0">Non Disponibile</option>
       </select>
-      <p class="fw-bold mt-4">Voto:</p>
-      <select class="form-select" name="search">
-        <option selected>Filtra tramite voto hotel</option>
-        <option value="1">1/5</option>
-        <option value="2">2/5</option>
-        <option value="3">3/5</option>
-        <option value="4">4/5</option>
-        <option value="5">5/5</option>
+      <select class="form-select mt-4" name="vote">
+        <option hidden>Filtra tramite voto</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
       </select>
       <button type="submit" class="btn btn-primary mt-4">Applica filtri</button>
     </form>
+
     <h3 class="fw-bold mt-5">Hotel trovati:</h3>
     <table class="table mt-4">
       <thead>
@@ -86,7 +83,10 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($hotels as $hotel) { ?>
+        <?php foreach ($hotels as $hotel) { 
+          if (!$_GET || $hotel['parking'] == $_GET['parking'])
+          if (!$_GET || $hotel['vote'] == $_GET['vote'])
+        { ?>
           <tr>
             <th scope="row"><?php echo $hotel['name'] ?></th>
             <td><?php echo $hotel['description'] ?></td>
@@ -104,7 +104,7 @@
             <td><?php echo $hotel['vote'] ?> / 5</td>
             <td><?php echo $hotel['distance_to_center'] ?> km</td>
           </tr>
-        <?php } ?>
+        <?php } } ?>
       </tbody>
     </table>
   </div>
