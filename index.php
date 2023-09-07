@@ -56,12 +56,12 @@
     <form action="index.php" class=" mt-4 border p-3">
       <h2>Filtri</h2>
       <select class="form-select" name="parking">
-        <option hidden>Filtra tramite parcheggio</option>
+        <option hidden value="not_selected">Filtra tramite parcheggio</option>
         <option value="1">Disponibile</option>
         <option value="0">Non Disponibile</option>
       </select>
       <select class="form-select mt-4" name="vote">
-        <option hidden>Filtra tramite voto</option>
+        <option hidden value="not_selected">Filtra tramite voto</option>
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -84,9 +84,14 @@
       </thead>
       <tbody>
         <?php foreach ($hotels as $hotel) { 
-          if (!$_GET || $hotel['parking'] == $_GET['parking'])
-          if (!$_GET || $hotel['vote'] == $_GET['vote'])
-        { ?>
+          if (
+            !$_GET 
+            ||$_GET['parking'] == 'not_selected' && $_GET['vote'] == 'not_selected'
+            ||$_GET['parking'] == $hotel['parking'] && $_GET['vote'] == $hotel['vote']
+            ||$_GET['parking'] == 'not_selected' && $_GET['vote'] == $hotel['vote']
+            ||$_GET['parking'] == $hotel['parking'] && $_GET['vote'] == 'not_selected'
+            )
+          { ?>
           <tr>
             <th scope="row"><?php echo $hotel['name'] ?></th>
             <td><?php echo $hotel['description'] ?></td>
